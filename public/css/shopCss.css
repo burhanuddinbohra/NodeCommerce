@@ -38,6 +38,8 @@ main{
   }
   
   .card__actions {
+    display: flex;
+    justify-content: center;
       padding: 1rem;
       text-align: center;
   }
@@ -54,6 +56,10 @@ main{
     background: white;
     border-radius: 3px;
     cursor: pointer;
+    display: inline-block;
+    width: fit-content;
+    padding: 0px 10px;
+
   }
   
   .btn:hover,
