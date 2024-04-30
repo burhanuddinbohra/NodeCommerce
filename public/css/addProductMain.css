@@ -30,6 +30,7 @@ main {
     padding: 4px 12px;
     font: inherit;
     border-radius: 13px;
+    overflow: hidden;
 }
 
 .form-control input:focus,
@@ -41,7 +42,8 @@ main {
 button {
     font: inherit;
     background-color: white;
-    width: 7rem;
+    width: fit-content;
+    padding: 0px 10px;
     border: 1px solid #303030;
     border-radius: 3px;
     color: black;
