@@ -46,6 +46,7 @@ main{
   
   .card__actions button,
   .card__actions a {
+    text-decoration: none;
       margin: 0 0.25rem;
   }
   
