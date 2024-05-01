@@ -46,5 +46,17 @@ body {
 
 /*some common css*/
 .txtCenter {
+    display: flex;
     text-align: center;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+    margin-top: 0.75rem;
+    border: 2px solid black;
+    border-radius: 20px;
+    box-shadow: 9px 8px 17px 3px rgb(66 110 67 / 37%);
+}
+
+.txtCenter form {
+    margin-bottom: 10px;
 }
