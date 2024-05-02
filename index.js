@@ -14,6 +14,8 @@ const app = express();
 app.set('view engine','ejs'); //setting what to use 
 app.set('views','views'); //where will be the templating engine files
 
+
+
 app.use(bodyparser.urlencoded({extended: false}))
 app.use(express.static(path.join(__dirname,'public')))
 app.use('/admin',adminRouter);
