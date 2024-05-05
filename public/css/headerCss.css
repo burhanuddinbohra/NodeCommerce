@@ -39,7 +39,7 @@ body {
 .header_li a:hover,
 .header_li a:active,
 .header_li a.active {
-    color: rgb(202, 202, 202);
+    color: #1d867a;
 }
 
 /* header css ends */
