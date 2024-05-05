@@ -62,13 +62,27 @@ main{
     padding: 0px 10px;
 
   }
+  .danger{
+    border: 2px solid red;
+    color: red;
+    border-radius: 9px;
+  }
+
+
   
   .btn:hover,
   .btn:active {
     background-color: #00695c;
     color: white;
+    transition: all 0.5s ease, color 0.5s ease;
   }
 
+  .danger:hover,
+  .danger:active{
+    border: none;
+    background-color: #e30000;
+    color: #ffff  ;
+  }
   .product-form {
     width: 20rem;
     max-width: 90%;
