@@ -1,8 +1,28 @@
-const { Sequelize } = require('sequelize');
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
 
-const sequelize = new Sequelize('node-proj', 'root', 'welcome123', {
-  host: 'localhost',
-  dialect: 'mysql', 
-});
+let _db;
+const mongoConnect = (callback)=>{
 
-module.exports = sequelize;
+  MongoClient.connect("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.5")
+    .then((client) => {
+      console.log(`mongoconnected hogaya!!!!`);
+
+      _db = client.db('node-learn');
+      callback(client);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+}
+
+const getDb = ()=>{
+  if (_db) {
+    return _db;
+  }
+  throw 'No DATABASE found!!!';
+}
+
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
