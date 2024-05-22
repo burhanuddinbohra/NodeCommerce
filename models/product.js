@@ -2,12 +2,13 @@ const mongodb = require('mongodb');
 const getDb = require('../util/database').getDb;
 
 class Product {
-  constructor(title, price, imageUrl, description, id) {
+    constructor(title, price, imageUrl, description, id , userId) {
     this.title = title;
     this.price = price;
     this.imageUrl = imageUrl;
     this.description = description;
     this.id = id ? new mongodb.ObjectId(id) : null;
+    this.userId = userId;
   }
 
   save() {
@@ -37,7 +38,7 @@ class Product {
       .find()
       .toArray()
       .then((result) => {
-        console.log(result);
+        console.log(`fetch all ka result : ${result[1]}`);
         return result;
       })
       .catch((err) => {
@@ -52,7 +53,8 @@ class Product {
       .find({ _id: new mongodb.ObjectId(prodId) })
       .next()
       .then((result) => {
-        console.log(result);
+        console.log(
+          'findById product wala  '+ result);
         return result;
       })
       .catch((err) => {

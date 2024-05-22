@@ -1,0 +1,29 @@
+.orders {
+  margin: auto;
+  width: 52rem;
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.orders_items {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  justify-content: space-between;
+  margin: 1.5rem 0rem;
+}
+
+.orders_products {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.orders_products-items {
+  color: #1d867a;
+  border: 2px solid #1d867a;
+  padding: 5px 10px;
+}
