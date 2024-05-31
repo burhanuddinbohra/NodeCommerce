@@ -1,0 +1,66 @@
+.user-message {
+  margin: auto;
+  width: 30rem;
+  background-color: #add8e6;
+  color: black;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+.user-message--error {
+  font-weight: 600;
+  background-color: rgb(255, 48, 48);
+}
+
+.anchorLink {
+  display: flex;
+  justify-content: center;
+}
+.anchorLink a {
+  text-decoration: none;
+  color: inherit;
+}
+.anchorLink a:hover,
+.anchorLink a:active,
+.anchorLink a.active {
+  color: #1d867a;
+}
+
+.btn {
+  overflow: hidden;
+  padding: 0.25rem 3rem;
+  border-radius: 7px;
+  background-color: white;
+  color: black;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.btn span {
+  position: relative;
+  transition: color 0.6s cubic-bezier(0.53, 0.21, 0, 1);
+}
+
+.btn:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #1d867a;
+  transform: scaleX(0);
+  transform-origin: 100% 100%;
+  transition: transform 0.6s cubic-bezier(0.53, 0.21, 0, 1);
+}
+
+.btn:hover::before {
+  transform-origin: 0 0;
+  transform: scaleX(1);
+}
+
+.btn:hover span {
+  color: white;
+}
