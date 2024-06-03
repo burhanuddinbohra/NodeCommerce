@@ -64,3 +64,9 @@
 .btn:hover span {
   color: white;
 }
+
+/* form styling */
+
+.product-form .invalid-border {
+  border-color: rgb(255, 48, 48);
+}
