@@ -2,29 +2,42 @@
 </head>
 <link rel="stylesheet" href="/css/headerCss.css">
 <link rel="stylesheet" href="/css/addProductMain.css">
+<link rel="stylesheet" href="/css/common.css">
 <link rel="stylesheet" href="/css/shopCss.css">
 <body>
     <%- include('../includes/navigation.ejs') %>
 
-    <main>
+    <main><% if(errorMessage.length > 0) { %>
+      <div class="user-message user-message--error"><%= errorMessage %></div>
+      <% } %>
         <form class="product-form" action="/admin/<% if(edit=='true') {%>edit-product <% } else { %>product<% } %>" method="post">
           <div class="form-control">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" value="<% if(edit == 'true') { %> <%= product.title %> <% } %>">
+            <input type="text" 
+            class="<%= validationErrors.find(e => e.path === 'title') ? 'invalid-border' : '' %>"
+            name="title" id="title" value="<% if(edit == 'true' || hasError == true) { %> <%= product.title %> <% } %>">
           </div>
           <div class="form-control">
             <label for="imageUrl">Image Url</label>
-            <input type="text" name="imageUrl" id="imageUrl" value="<% if(edit == 'true') { %> <%= product.imageUrl %> <% } %>">
+            <input type="text" 
+            class="<%= validationErrors.find(e => e.path === 'imageUrl') ? 'invalid-border' : '' %>"
+            name="imageUrl" id="imageUrl" value="<% if(edit == 'true' || hasError == true) { %> <%= product.imageUrl %> <% } %>">
           </div>
           <div class="form-control">
             <label for="price">Price</label>
-            <input type="number" name="price" id="price" value="<% if(edit == 'true') { %><%=product.price%><% } %>" >
+            <input type="number"
+            class="<%= validationErrors.find(e => e.path === 'price') ? 'invalid-border' : '' %>"
+            name="price" id="price" value="<% if(edit == 'true' || hasError == true) { %><%=product.price%><% } %>" >
           </div>
           <div class="form-control">
             <label for="descriptioin">Descriptioin</label>
-            <textarea name="descriptioin" id="descriptioin" rows="5" ><% if(edit == 'true') { %> <%= product.description %> <% } %></textarea>
+            <textarea name="descriptioin"
+            class="<%= validationErrors.find(e => e.path === 'descriptioin') ? 'invalid-border' : '' %>"
+            id="descriptioin" rows="5" ><% if(edit == 'true' || hasError == true) { %> <%= product.description %> <% } %></textarea>
           </div>
-            <button type="submit" class="btn"><% if(edit=='true') {%> Update Product <% } else { %> Add Product <% } %></button>
+            <button type="submit" class="btn"><span> <% if(edit=='true') {%> Update Product <% } else { %> Add Product <% } %>
+            </span>
+            </button>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <% if(edit == 'true') { %>
               <input type="hidden" value="<%= product._id %>" name="productId">

@@ -70,7 +70,7 @@ exports.postCart = (req, res, next) => {
     })
     .then((result) => {
       res.redirect("/cart");
-      console.log("ho gaya add" + result);
+      console.log("Product added to cart from exports.postCart()");
     });
 };
 
@@ -80,9 +80,13 @@ exports.postCartItemDelete = (req, res, next) => {
     .removeFromCart(prodId)
     .then(() => {
       res.redirect("/cart");
+      console.log("Product deleted to cart from exports.postCartItemDelete()");
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      console.log(`error logged : ${err}`);
+      return next(error);
     });
 };
 
@@ -96,7 +100,10 @@ exports.getOrders = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      console.log(`error : ${err}`);
+      return next(error);
     });
 };
 
@@ -124,32 +131,10 @@ exports.postOrder = (req, res, next) => {
       res.redirect("/orders");
     })
     .catch((err) => {
-      console.log("err aaya hai orders me:  " + err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      console.log(`error : ${err}`);
+      return next(error);
     });
-  // .then((user) => {
-  //   const products = user.cart.items.map((i) => {
-  //     return { quantity: i.quantity, products: i.productId };
-  //   });
-  //   const order = new Order({
-  //     user: {
-  //       name: req.user.name,
-  //       userId: req.user,
-  //     },
-  //     products: products,
-  //   });
-  //   return order.save();
-  // })
-  // .then((result) => {
-  //   res.redirect("/orders");
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  // });
 };
 
-// exports.getCheckout = (req,res,next )=>{
-//     res.render("shop/checkout",{
-//         pageTitle: "CheckOut Here",
-//         path: "/checkout"
-//     });
-// }

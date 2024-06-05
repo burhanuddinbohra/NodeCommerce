@@ -115,9 +115,8 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postLogout = (req, res, next) => {
-  console.log("session rout me aaya destroy!");
   req.session.destroy((err) => {
-    console.log("session hua destroy!");
+    console.log("session being destroy!");
     res.redirect("/");
   });
 };
@@ -203,7 +202,12 @@ exports.postReset = (req, res, next) => {
           <p>Click this link to reset your password : <a href="http://localhost:8000/reset/${token}"> Click Here To Reset Password </a> </p>`,
         });
       })
-      .catch((err) => {});
+      .catch((err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        console.log(`error logged : ${err}`);
+        return next(error);
+      });
   });
 };
 
@@ -221,7 +225,11 @@ exports.getNewPassword = (req, res, next) => {
       });
     })
     .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      console.log(`error : ${err}`);
       console.log(`error in getNewPassword while finding user ${err}`);
+      return next(error);
     });
 };
 
@@ -253,6 +261,10 @@ exports.postNewPassword = (req, res, next) => {
       res.redirect("/login");
     })
     .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      console.log(`error logged : ${err}`);
       console.log(`err in findOne postNewPassword ${err}`);
+      return next(error);
     });
 };
