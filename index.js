@@ -72,7 +72,7 @@ app.use((req, res, next) => {
 app.use("/admin", adminRouter);
 app.use(shopRoutes);
 app.use(authRoutes);
-
+//test
 //error page
 app.get("/500", errorController.getError500);
 app.use(errorController.getError404);
