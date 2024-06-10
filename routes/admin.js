@@ -16,18 +16,17 @@ router.get("/add-product", isAuth, adminController.getAddProducts);
 //  /admin/products => POST
 router.post(
   "/product",
-  isAuth,
   [
     body("title", "title must have minimum 3 characters")
       .trim()
       .isLength({ min: 3 })
       .isString(),
-    body("imageUrl").trim().isURL().withMessage("url galat daalra hai"),
     body("price", "price must be numeric").isNumeric(),
     body("descriptioin", "description must have minimum 5 characters")
       .trim()
       .isLength({ min: 5 }),
   ],
+  isAuth,
   adminController.postAddProducts
 );
 
@@ -40,18 +39,18 @@ router.get("/edit-product/:productId", isAuth, adminController.getEditProducts);
 // /amin/edit-product
 router.post(
   "/edit-product",
-  isAuth,
+
   [
     body("title", "title must have minimum 3 characters")
       .trim()
       .isLength({ min: 3 })
       .isString(),
-    body("imageUrl").trim().isURL().withMessage("url galat daalra hai"),
     body("price", "price must be numeric").isNumeric(),
     body("descriptioin", "description must have minimum 5 characters")
       .trim()
       .isLength({ min: 5 }),
   ],
+  isAuth,
   adminController.postEditProducts
 );
 
