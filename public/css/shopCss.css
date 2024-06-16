@@ -108,3 +108,21 @@ main {
 .product__description {
   text-align: center;
 }
+
+.pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.pagination a {
+  border: 1px solid #00695c;
+  padding: 5px;
+}
+
+.pagination a:hover,
+.pagination a:active,
+.pagination a.active {
+  background-color: #00695c;
+  color: white;
+}
