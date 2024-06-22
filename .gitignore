@@ -1,7 +1,6 @@
 node_modules/
-handlerFile.js
-data/cart.json
-data/products.json
-data/
+data/invoice/*.pdf
+images/*.jpg
+images/*.jpeg
+images/*.pngdata
 .gitignore
-images/
