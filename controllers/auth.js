@@ -1,3 +1,4 @@
+require("dotenv").config({ path: "../creds.env" });
 const crypto = require("crypto");
 
 const bcrypt = require("bcryptjs");
@@ -9,11 +10,11 @@ const { validationResult } = require("express-validator");
 const User = require("../models/user");
 const { use } = require("../routes/auth");
 
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key:
-        "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",
+      api_key: SENDGRID_API_KEY, //add your sendGrid API_KEY
     },
   })
 );
@@ -157,9 +158,9 @@ exports.postSignup = (req, res, next) => {
       console.log(email);
       return transporter.sendMail({
         to: email,
-        from: "burhanuddinmulayamwala@gmail.com",
+        from: "", //from's email address
         subject: "Signup Successful!",
-        html: "<h1>You successfully signed up to cinnamon soapery!</h1>",
+        html: "<h1>You successfully signed up to my website!</h1>",
       });
     })
     .catch((err) => {
@@ -196,7 +197,7 @@ exports.postReset = (req, res, next) => {
         res.redirect("/");
         transporter.sendMail({
           to: req.body.email,
-          from: "burhanuddinmulayamwala@gmail.com",
+          from: "", //from's email address
           subject: "Password Reset",
           html: `<h5> Password Reset Through Link! </h5>
           <p>Click this link to reset your password : <a href="http://localhost:8000/reset/${token}"> Click Here To Reset Password </a> </p>`,
@@ -213,7 +214,7 @@ exports.postReset = (req, res, next) => {
 
 exports.getNewPassword = (req, res, next) => {
   const token = req.params.token;
-  console.log(`this is the token on newPass page: ${token}`);
+
   User.findOne({ token: token, tokenExpiry: { $gt: Date.now() } })
     .then((user) => {
       res.render("auth/new-password", {

@@ -2,6 +2,7 @@
 </head>
 <link rel="stylesheet" href="/css/headerCss.css">
 <link rel="stylesheet" href="/css/orders.css">
+<link rel="stylesheet" href="/css/shopCss.css">
 
 <body>
     <%- include('../includes/navigation.ejs') %>
@@ -12,14 +13,13 @@
                 <ul class="orders">
                     <% orders.forEach(order => { %>
                     <li class="orders_items">
-                        <h3>Order - #<%= order._id %> - <a href="/order/<%=order._id%>">Invoice</a></h3>
+                        <h3>Order - #<%= order._id %> - <a href="/order/<%=order._id%>" class="btn">Invoice</a></h3>
                         <ul class="orders_products">
                             <% order.products.forEach( p => { %>
                             <li class="orders_products-items"><%= p.product.title %> ( <%= p.quantity %>) </li>
                             <% }); %>
                         </ul>
                     </li>
-
                     <% }); %>
                 </ul>
                 <% } %>
