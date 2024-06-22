@@ -3,6 +3,7 @@ const fileHelper = require("../util/file");
 
 const { validationResult } = require("express-validator");
 
+// Renders the "Add Product" page
 exports.getAddProducts = (req, res, next) => {
   res.render("admin/edit-product", {
     pageTitle: "Add-Product Admin",
@@ -15,13 +16,14 @@ exports.getAddProducts = (req, res, next) => {
   });
 };
 
+// Handles form submission for adding a new product
 exports.postAddProducts = (req, res, next) => {
-  // products.push({title: req.body.product});
   const title = req.body.title;
   const image = req.file;
   const price = req.body.price;
   const descriptioin = req.body.descriptioin;
 
+  // Check if an image is uploaded
   if (!image) {
     return res.status(404).render("admin/edit-product", {
       pageTitle: "Add Product",
@@ -39,6 +41,7 @@ exports.postAddProducts = (req, res, next) => {
     });
   }
 
+  // Validate input fields
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(404).render("admin/edit-product", {
@@ -57,9 +60,8 @@ exports.postAddProducts = (req, res, next) => {
     });
   }
 
+   // Get image URL and create a new product
   const imageUrl = image.path;
-  console.log("imageUrl Path : " + imageUrl);
-
   const product = new Product({
     title: title,
     price: price,
@@ -68,6 +70,7 @@ exports.postAddProducts = (req, res, next) => {
     userId: req.user,
   });
 
+    // Save the product to the database
   product
     .save()
     .then((result) => {
@@ -83,10 +86,9 @@ exports.postAddProducts = (req, res, next) => {
     });
 };
 
+// Fetches and renders the products associated with the logged-in user
 exports.getProducts = (req, res, next) => {
-  // Product.findAll()
   Product.find({ userId: req.user._id })
-    // Product.find()
     .then((products) => {
       res.render("admin/products", {
         prods: products,
@@ -102,6 +104,7 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
+// Renders the "Edit Product" page with the product details
 exports.getEditProducts = (req, res, next) => {
   const prodId = req.params.productId;
   let editMode = req.query.edit;
@@ -135,6 +138,7 @@ exports.getEditProducts = (req, res, next) => {
     });
 };
 
+// Handles form submission for editing an existing product
 exports.postEditProducts = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
@@ -142,6 +146,7 @@ exports.postEditProducts = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedDescription = req.body.descriptioin;
 
+  // Validate input fields
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(404).render("admin/edit-product", {
@@ -161,6 +166,7 @@ exports.postEditProducts = (req, res, next) => {
     });
   }
 
+  // Find the product by ID and update its details
   Product.findById(prodId)
     .then((product) => {
       if (product.userId.toString() !== req.user._id.toString()) {
@@ -170,8 +176,8 @@ exports.postEditProducts = (req, res, next) => {
       product.price = updatedPrice;
       product.description = updatedDescription;
       if (image) {
-        fileHelper.deleteFile(product.imageUrl);
-        product.imageUrl = image.path;
+        fileHelper.deleteFile(product.imageUrl); // Delete the old image
+        product.imageUrl = image.path; // Set the new image URL
       }
       return product.save().then((result) => {
         console.log(` Product has been Updated to this`);
@@ -187,6 +193,7 @@ exports.postEditProducts = (req, res, next) => {
     });
 };
 
+// Handles the deletion of a product
 exports.deleteProduct = (req, res, next) => {
   const prodId = req.params.productId;
   Product.findById(prodId)

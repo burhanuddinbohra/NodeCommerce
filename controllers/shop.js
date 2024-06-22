@@ -6,26 +6,18 @@ const PDFDocument = require("pdfkit");
 const Product = require("../models/product");
 const Order = require("../models/order");
 
-// const Cart = require("../models/cart");
-
+// Define the number of items to display per page
 const ITEMS_PER_PAGE = 4;
 
+// Controller for fetching and displaying products with pagination
 exports.getProducts = (req, res, next) => {
-  // Product.find()
-  //   .then((products) => {
-  //     res.render("shop/product-list", {
-  //       prods: products,
-  //       pageTitle: "All Products",
-  //       path: "/products",
-  //     });
-  //   })
   const page = +req.query.page || 1;
   let totalItems;
+
   Product.find()
     .countDocuments()
     .then((numProducts) => {
       totalItems = numProducts;
-
       return Product.find()
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
@@ -48,6 +40,7 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
+// Controller for fetching and displaying a single product by ID
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
 
@@ -62,6 +55,7 @@ exports.getProduct = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+// Controller for fetching and displaying the home page with products and pagination
 exports.getIndex = (req, res, next) => {
   const page = +req.query.page || 1;
   let totalItems;
@@ -92,6 +86,7 @@ exports.getIndex = (req, res, next) => {
     });
 };
 
+// Controller for fetching and displaying the user's cart
 exports.getCart = (req, res, next) => {
   req.user
     .populate("cart.items.productId")
@@ -101,7 +96,6 @@ exports.getCart = (req, res, next) => {
         pageTitle: "Your Cart",
         path: "/cart",
         products: product,
-        // totalPrice: totalCartPrice
       });
     })
     .catch((err) => {
@@ -109,6 +103,7 @@ exports.getCart = (req, res, next) => {
     });
 };
 
+// Controller for adding a product to the cart
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findById(prodId)
@@ -121,6 +116,8 @@ exports.postCart = (req, res, next) => {
     });
 };
 
+
+// Controller for removing a product from the cart
 exports.postCartItemDelete = (req, res, next) => {
   const prodId = req.body.productId;
   req.user
@@ -137,6 +134,7 @@ exports.postCartItemDelete = (req, res, next) => {
     });
 };
 
+// Controller for fetching and displaying the user's orders
 exports.getOrders = (req, res, next) => {
   Order.find({ "user.userId": req.user._id })
     .then((orders) => {
@@ -154,6 +152,8 @@ exports.getOrders = (req, res, next) => {
     });
 };
 
+
+// Controller for creating an order from the user's cart
 exports.postOrder = (req, res, next) => {
   req.user
     .populate("cart.items.productId")
@@ -185,6 +185,7 @@ exports.postOrder = (req, res, next) => {
     });
 };
 
+// Controller for generating and serving an invoice PDF for an order
 exports.getInvoice = (req, res, next) => {
   const orderId = req.params.orderId;
 
@@ -225,27 +226,6 @@ exports.getInvoice = (req, res, next) => {
       });
       pdfDoc.text(`Total Amont =  $${totalPrice}`);
       pdfDoc.end();
-
-      // ------this is using file system which is not optimised way as it creates server load----
-      // fs.readFile(invoicePath, (err, data) => {
-      //   if (err) {
-      //     return next(err);
-      //   }
-      //   res.setHeader("Content-Type", "application/pdf");
-      //   res.setHeader(
-      //     "Content-Disposition",
-      //     'inline; filename="' + invoiceName + '"'
-      //   );
-      //   res.send(data);
-      // });
-
-      // ------this is using fs Steaming the file which is optimised way as it gives data in chunks and doesnot creates server load----
-      // const file = fs.createReadStream(invoicePath);
-      // res.setHeader(
-      //   "Content-Disposition",
-      //   'inline; filename="' + invoiceName + '"'
-      // );
-      // file.pipe(res);
     })
     .catch((err) => {
       return next(err);
